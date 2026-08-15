@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 9x BSOD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        :root {
+            --scale-factor: 1;
+        }
+
+        body {
+            background-color: #0000AA;
+            color: #FFFFFF;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 720px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(var(--scale-factor));
+            transform-origin: center center;
+            transition: transform 0.1s ease-out;
+        }
+
+        .header-box {
+            background-color: #AAAAAA;
+            color: #0000AA;
+            padding: 2px 14px;
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .content {
+            width: 100%;
+            text-align: left;
+            font-size: 1.15rem;
+            line-height: 1.6;
+        }
+
+        .content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .error-code {
+            margin-top: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .footer {
+            width: 100%;
+            text-align: center;
+            font-size: 1.15rem;
+        }
+
+        .blink {
+            animation: blinker 1s step-end infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="bsod-container">
+        <div class="header-box">Windows</div>
+
+        <div class="content">
+            <p>An error has occurred. To continue:</p>
+            <p>Press Enter to return to Windows, or</p>
+            <p>Press CTRL+ALT+DEL to restart your computer. If you do this,<br>
+            you will lose any unsaved information in all open applications.</p>
+            <p class="error-code">Error: 0E : 016F : BFF983D4</p>
+        </div>
+
+        <div class="footer">
+            Press any key to continue <span class="blink">_</span>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('bsod-container');
+
+        function autoFitLayout() {
+            document.documentElement.style.setProperty('--scale-factor', 1);
+
+            const padding = 40;
+            const availableWidth = window.innerWidth - padding;
+            const availableHeight = window.innerHeight - padding;
+
+            const containerWidth = container.scrollWidth;
+            const containerHeight = container.scrollHeight;
+
+            const scaleX = availableWidth / containerWidth;
+            const scaleY = availableHeight / containerHeight;
+
+            const minScale = Math.min(scaleX, scaleY, 1);
+            document.documentElement.style.setProperty('--scale-factor', minScale);
+        }
+
+        window.addEventListener('resize', autoFitLayout);
+        window.addEventListener('DOMContentLoaded', autoFitLayout);
+    </script>
+</body>
+</html>
